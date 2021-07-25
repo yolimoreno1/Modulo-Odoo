@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+    <!--res.partner Extension-->
+        <record	id="view_partner_seller"	model="ir.ui.view">
+            <field	name="name">partner.seller</field>
+            <field	name="model">res.partner</field>
+            <field	name="inherit_id"	ref="base.view_partner_form"/>
+            <field	name="arch"	type="xml">
+                <page name="internal_notes" position="after">
+                    <page name="formacionymr" string="Training">
+                        <group>
+                            <field	name="is_teacher"/>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+	</data>
+</odoo>

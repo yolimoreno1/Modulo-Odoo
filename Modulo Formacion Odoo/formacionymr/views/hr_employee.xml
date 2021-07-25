@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+    <!--hr.employee Extension-->
+    <!-- view form -->
+    <record id="view_employee_form" model="ir.ui.view">
+            <field name="name">hr.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <page name="hr_settings" position="before">
+                    <page name="formacionymr" string="Training">
+                        <group>
+                            <field name="is_student"/>
+                            <field name="id_acciones"
+                                   options = "{'no_create': True, 'no_create_edit': True,'m2o_dialog' : True}"
+                            help="Employee training actions"/>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+    <!-- view filter -->
+    <record id="view_employee_filter" model="ir.ui.view">
+        <field name="name">hr.employee.search</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+            <filter name="inactive" position="before">
+                <filter string="Estudiante" name="is_student" domain="[('is_student','=',True)]"/>
+            </filter>
+        </field>
+    </record>
+
+
+	</data>
+</odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record model="ir.module.category" id="formacionymr.module_category_formacionymr">
+            <field name="name">Formacion</field>
+            <field name="description">Ayuda a gestionar la formacion de tu empresa</field>
+            <field name="sequence">200</field>
+        </record>
+        <record model="res.groups" id="group_formacionymr_user">
+            <field name="name">User</field>
+            <field name="category_id" ref="formacionymr.module_category_formacionymr"/>
+            <field name="comment">El usuario</field>
+        </record>
+        <record model="res.groups" id="group_formacionymr_manager">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="formacionymr.module_category_formacionymr"/>
+            <field name="implied_ids" eval="[(4, ref('group_formacionymr_user')),(4, ref('hr.group_hr_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+    </data>
+</odoo>

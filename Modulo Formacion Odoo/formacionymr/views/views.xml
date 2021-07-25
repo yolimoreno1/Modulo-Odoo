@@ -1,0 +1,294 @@
+<odoo>
+  <data>
+<!-- vistas cursos -->
+<!-- list -->
+    <record model="ir.ui.view" id="formacionymr.cursos_list">
+      <field name="name">Catalolgo de Cursos</field>
+      <field name="model">formacionymr.cursos</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="grade" widget="selection"/>
+          <field name="date_begin"/>
+          <field name="date_end"/>
+          <field name="day" widget="many2many_tags" nolabel="1" options="{'horizontal': true , 'color_field': 'color'}"/>
+          <field name="hour_begin" widget="float_time"/>
+          <field name="hour_end" widget="float_time"/>
+          <field name="description"/>
+        </tree>
+      </field>
+    </record>
+
+<!-- form -->
+    <record model="ir.ui.view" id="formacionymr.cursos_form">
+      <field name="name">Nuevo Curso</field>
+      <field name="model">formacionymr.cursos</field>
+      <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group string="Datos del curso">
+            <group>
+              <field name="id"/>
+              <field name="name"/>
+              <field name="grade"/>
+              <field name="id_especialidades" help="Especialidad a la que pertenece"/>
+            </group>
+            <group>
+              <field name="time"/>
+              <field name="hours"/>
+              <field name="sessions" string="Sesiones"/>
+              <field name="date_begin" widget="daterange" options="{'related_end_date': 'date_end'}"/>
+              <field name="date_end" widget="daterange" options="{'related_start_date': 'date_begin'}"/>
+            </group>
+          </group>
+          <group>
+            <field name="description"/>
+          </group>
+          <group string="Dias de clase">
+            <field name="day" widget="many2many_tags" nolabel="1" options="{'horizontal': true , 'color_field': 'color'}"/>
+            <field name="hour_begin" widget="float_time"/>
+            <field name="hour_end" widget="float_time"/>
+          </group>
+        </sheet>
+      </form>
+      </field>
+    </record>
+
+<!-- calendar-->
+    <record model="ir.ui.view" id="formacionymr.cursos_calendar">
+      <field name="name">Calendario de Cursos</field>
+      <field name="model">formacionymr.cursos</field>
+      <field name="arch" type="xml">
+        <calendar date_start="date_begin" color="name" mode="month" date_stop="date_end" event_open_popup="True">
+          <field name="name"/>
+          <field name="hour_begin" widget="float_time"/>
+          <field name="hour_end" widget="float_time"/>
+          <field name="grade"/>
+        </calendar>
+      </field>
+    </record>
+
+<!-- Search-->
+    <record model="ir.ui.view" id="formacionymr.cursos_search_view">
+      <field name="model">formacionymr.cursos</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="id"/>
+          <field name="name"/>
+          <field name="grade" widget="selection"/>
+          <group>
+            <filter name="group_by_date" string="Fecha" context="{'group_by': 'date_begin'}"/>
+            <filter name="group_by_name" string="Curso" context="{'group_by': 'name'}"/>
+            <filter name="group_by_grade" string="Estado" context="{'group_by': 'grade'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+
+<!-- vistas weekday -->
+<!-- list -->
+    <record model="ir.ui.view" id="formacionymr.weekday_list">
+      <field name="name">Weekday</field>
+      <field name="model">formacionymr.weekday</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="color" string="Color"/>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+<!-- form -->
+    <record model="ir.ui.view" id="formacionymr.weekday_form">
+      <field name="name">Weekday</field>
+      <field name="model">formacionymr.weekday</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="name" string="Dia de la semana"/>
+              <field name="color" string="Color" help="Insert a number to get a color"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
+<!-- vistas especialidades -->
+<!-- list -->
+    <record model="ir.ui.view" id="formacionymr.especialidades_list">
+      <field name="name">Catalogo de Especialidades</field>
+      <field name="model">formacionymr.especialidades</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="name_partner"/>
+          <field name="description"/>
+        </tree>
+      </field>
+    </record>
+
+<!-- form -->
+    <record model="ir.ui.view" id="formacionymr.especialidades_form">
+      <field name="name">Nueva Especialidad</field>
+      <field name="model">formacionymr.especialidades</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="name"/>
+              <field name="description"/>
+            </group>
+            <group>
+              <field name="id_partner" domain="[('is_teacher', '=', True)]"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
+<!-- vistas acciones -->
+<!-- list -->
+    <record model="ir.ui.view" id="formacionymr.acciones_list">
+      <field name="name">Lista de Acciones Formativas</field>
+      <field name="model">formacionymr.acciones</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="id_cursos"/>
+          <field name="name_partner" string='Formador'/>
+          <field name="id_employee"/>
+        </tree>
+      </field>
+    </record>
+
+<!-- form -->
+    <record model="ir.ui.view" id="formacionymr.acciones_form">
+      <field name="name">Nueva Accion Formativa</field>
+      <field name="model">formacionymr.acciones</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="id_cursos" string="Curso"/>
+              <field name="name_partner" string='Formador'/>
+            </group>
+            <group>
+              <field name="id_employee"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+<!-- calendar-->
+    <record model="ir.ui.view" id="formacionymr.acciones_calendar">
+      <field name="name">Acciones Calendar</field>
+      <field name="model">formacionymr.acciones</field>
+      <field name="arch" type="xml">
+        <calendar date_start="date_begin" color="name" mode="month" date_stop="date_end" event_open_popup="True">
+          <field name="id_cursos"/>
+          <field name="name_partner"/>
+          <field name="id_employee"/>
+          <field name="status"/>
+        </calendar>
+      </field>
+    </record>
+
+<!-- Search-->
+    <record model="ir.ui.view" id="formacionymr.acciones_search_view">
+      <field name="model">formacionymr.acciones</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="id_cursos" string="Curso"/>
+          <field name="status" string="Estado"/>
+          <group>
+            <filter name="group_by_name" string="Curso" context="{'group_by': 'id_cursos'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+
+<!-- actions opening views on models -->
+<!-- cursos -->
+    <record model="ir.actions.act_window" id="formacionymr.cursos_action_window">
+      <field name="name">Catalogo de Cursos</field>
+      <field name="res_model">formacionymr.cursos</field>
+      <field name="view_mode">tree,form,calendar</field>
+    </record>
+
+<!-- especialidades -->
+    <record model="ir.actions.act_window" id="formacionymr.especialidades_action_window">
+      <field name="name">Catalogo de Especialidades</field>
+      <field name="res_model">formacionymr.especialidades</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+<!-- acciones -->
+    <record model="ir.actions.act_window" id="formacionymr.acciones_action_window">
+      <field name="name">Lista de Acciones Formativas</field>
+      <field name="res_model">formacionymr.acciones</field>
+      <field name="view_mode">tree,form,calendar</field>
+    </record>
+
+<!-- weekday -->
+    <record model="ir.actions.act_window" id="formacionymr.weekday_action_window">
+      <field name="name">Weekday</field>
+      <field name="res_model">formacionymr.weekday</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="formacionymr.action_server">
+      <field name="name">formacionymr server</field>
+      <field name="model_id" ref="model_formacionymr_formacionymr"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+<!-- Top menu item -->
+    <menuitem name="formacionymr" id="formacionymr.menu_root"/>
+<!-- menu categories -->
+    <menuitem name="Acciones Formativas" id="formacionymr.acciones" parent="formacionymr.menu_root"/>
+    <menuitem name="Add" id="formacionymr.add" parent="formacionymr.menu_root"/>
+    <menuitem name="Configuration" id="formacionymr.configuracion" parent="formacionymr.menu_root"/>
+
+<!-- actions-->
+    <!-- Menu Acciones Formativas -->
+    <!-- Acciones -->
+    <menuitem name="Acciones Formativas" id="formacionymr.acciones_list" parent="formacionymr.acciones"
+              action="formacionymr.acciones_action_window"/>
+
+    <!-- Menu Add -->
+    <!-- Cursos -->
+    <menuitem name="Cursos" id="formacionymr.cursos_list" parent="formacionymr.add"
+              action="formacionymr.cursos_action_window"/>
+    <!-- Especialidades -->
+    <menuitem name="Especialidades" id="formacionymr.especialidades_list" parent="formacionymr.add"
+              action="formacionymr.especialidades_action_window"/>
+
+    <!-- Menu Configuration -->
+    <!-- Weekday -->
+    <menuitem name="Weekday" id="formacionymr.weekday_list" parent="formacionymr.configuracion"
+              action="formacionymr.weekday_action_window"/>
+    <!-- Empleados -->
+    <menuitem name="Empleados" id="formacionymr.configuracion_empleados" parent="formacionymr.configuracion"
+              action="hr.open_view_employee_list_my"/>
+    <!-- Formadores -->
+    <menuitem name="Formadores" id="formacionymr.configuracion_formadores" parent="formacionymr.configuracion"
+              action="base.action_partner_form"/>
+
+  </data>
+</odoo>
